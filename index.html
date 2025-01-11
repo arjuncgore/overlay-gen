@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Overlay Generator</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Roboto:ital,wght@0,400;0,700;1,400&family=Oswald:wght@400;700&family=Montserrat:ital,wght@0,400;0,700;1,400&family=Open+Sans:ital,wght@0,400;0,700;1,400&family=Lato:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: row;
+        background-color: #24252e;
+        color: #ffffff;
+        font-size: 24px;
+      }
+
+      .left-panel {
+        flex: 3;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 800px;
+      }
+
+      .right-panel {
+        flex: 7;
+        padding: 20px;
+        height: 600px;
+      }
+
+      .transform {
+        padding-top: 20px;
+        max-height: 200px;
+      }
+
+      #canvas {
+        border: 3px solid black;
+        width: 100%;
+        height: 100%;
+      }
+
+      .input-group {
+        margin-bottom: 10px;
+      }
+
+      .slider-group input[type='range'] {
+        width: 200px;
+        float: right;
+        margin-right: 10px;
+      }
+
+      .slider-group input[type='number'] {
+        width: 60px;
+        float: right;
+        margin-right: 10px;
+      }
+
+      /* Slider styling */
+      input[type='range'] {
+        -webkit-appearance: none;
+        height: 10px;
+        background: #dbdbdb;
+        border-radius: 5px;
+        background-image: linear-gradient(#355b94, #355b94);
+        background-repeat: no-repeat;
+      }
+
+      input[type='range']::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        background: #355b94;
+        cursor: pointer;
+        box-shadow: 0 0 2px 0 #555;
+      }
+
+      input[type='range']::-webkit-slider-runnable-track {
+        -webkit-appearance: none;
+        box-shadow: none;
+        border: none;
+        background: transparent;
+      }
+
+      /* Remove number input arrows */
+      input[type='number']::-webkit-inner-spin-button,
+      input[type='number']::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      input[type='number'] {
+        -moz-appearance: textfield;
+      }
+
+      input[type='number'],
+      input[type='text'],
+      select {
+        border: 1px solid black;
+        border-radius: 6px;
+        padding: 3px;
+        float: right;
+        background-color: #dbdbdb;
+      }
+
+      select {
+        width: 200px;
+        height: 30px;
+      }
+
+      .input-group input[type='color'] {
+        width: 50px;
+        height: 30px;
+        padding: 0;
+        margin-right: 10px;
+        float: right;
+      }
+
+      .input-group input[type='text'] {
+        width: 80px;
+        float: right;
+        margin-right: 10px;
+      }
+
+      button {
+        background-color: #355b94;
+        border: none;
+        border-radius: 6px;
+        color: white;
+        padding: 12px 24px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 24px;
+      }
+
+      button:hover {
+        background-color: #2f538a;
+      }
+
+      #cropRight,
+      #cropBottom {
+        padding-left: 100px;
+        text-align: left;
+      }
+
+      .menu {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+      }
+
+      #currentPage {
+        background-color: #2f538a;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="left-panel">
+      <div class="input-group">
+        <label for="canvasWidth">Enter OBS canvas width:</label>
+        <input type="number" id="canvasWidth" value="1920" />
+      </div>
+      <div class="input-group">
+        <label for="canvasHeight">Enter OBS canvas height:</label>
+        <input type="number" id="canvasHeight" value="1080" />
+      </div>
+      <div class="input-group">
+        <label for="colour1">Enter first colour:</label>
+        <input type="text" id="colour1Text" placeholder="Hex code" />
+        <input type="color" id="colour1" value="#ffb0c5" />
+      </div>
+      <div class="input-group">
+        <label for="colour2">Enter second colour:</label>
+        <input type="text" id="colour2Text" placeholder="Hex code" />
+        <input type="color" id="colour2" value="#99cdf0" />
+      </div>
+      <div class="input-group">
+        <label for="colourText">Enter text colour:</label>
+        <input type="text" id="colourTextText" placeholder="Hex code" />
+        <input type="color" id="colourText" value="#000000" />
+      </div>
+      <div class="input-group slider-group">
+        <label for="pixelCount">Number of pixels:</label>
+        <input type="number" id="pixelCountNumber" value="9" min="1" max="50" />
+        <input type="range" id="pixelCount" value="9" min="1" max="50" />
+      </div>
+      <div class="input-group slider-group">
+        <label for="opacity">Opacity:</label>
+        <input type="number" id="opacityNumber" value="100" min="0" max="100" />
+        <input type="range" id="opacity" value="100" min="0" max="100" />
+      </div>
+      <div class="input-group slider-group">
+        <label for="textSize">Text size:</label>
+        <input
+          type="number"
+          id="textSizeNumber"
+          value="40"
+          min="10"
+          max="100"
+        />
+        <input type="range" id="textSize" value="40" min="10" max="100" />
+      </div>
+      <div class="input-group">
+        <label for="numberStyle">Number style:</label>
+        <select id="numberStyle">
+          <option value="stacked">Stacked Digits</option>
+          <option value="compact">Compact (Small First Digit)</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="fontStyle">Font style:</label>
+        <select id="fontStyle">
+          <option value="Inter-400">Inter</option>
+          <option value="Inter-700">Inter Bold</option>
+          <option value="Roboto-400">Roboto</option>
+          <option value="Roboto-700">Roboto Bold</option>
+          <option value="Roboto-400i">Roboto Italic</option>
+          <option value="Oswald-400">Oswald</option>
+          <option value="Oswald-700">Oswald Bold</option>
+          <option value="Montserrat-400">Montserrat</option>
+          <option value="Montserrat-700">Montserrat Bold</option>
+          <option value="Montserrat-400i">Montserrat Italic</option>
+          <option value="Open Sans-400">Open Sans</option>
+          <option value="Open Sans-700">Open Sans Bold</option>
+          <option value="Open Sans-400i">Open Sans Italic</option>
+          <option value="Lato-400">Lato</option>
+          <option value="Lato-700">Lato Bold</option>
+          <option value="Lato-400i">Lato Italic</option>
+        </select>
+      </div>
+      <button id="downloadBtn" onclick="downloadImage()" disabled="true">
+        Download Image
+      </button>
+      <div class="transform">
+        Transform Settings:<br /><br />
+        <span id="cropLeft">Left: </span> <span id="cropRight">Right: </span
+        ><br /><br />
+        <span id="cropTop">Top: </span> <span id="cropBottom">Bottom: </span
+        ><br />
+      </div>
+    </div>
+    <div class="right-panel">
+      <canvas id="canvas"></canvas>
+      <div class="menu">
+        <button onclick="window.location.href='calc.html'">Sens Calc</button>
+        <button
+          id="currentPage"
+          onclick="window.location.href=window.location.href"
+        >
+          Overlay Gen
+        </button>
+      </div>
+    </div>
+    <script src="genScript.js"></script>
+  </body>
+</html>
