@@ -208,6 +208,30 @@ function generateImage() {
                         startY + lineHeight * index
                     );
                 });
+
+            } else if (numberStyle === 'slackow') {
+                // Only split 10, 20, 30, show last digit for the rest
+                const digits = num.toString().split('');
+                const lastDigit = num % 10;
+
+                if (lastDigit !== 0) {
+                    setFont(singleDigitHeight);
+                    ctx.fillText(
+                        String(lastDigit),
+                        pixelX + pixelWidth / 2,
+                        pixelY + pixelHeight / 2
+                    );
+                } else {
+                    setFont(singleDigitHeight);
+                    const lines = [digits[0], digits[1]];
+                    const lineHeight = singleDigitHeight;
+                    const totalHeight = lineHeight * lines.length;
+                    const startY = pixelY + (pixelHeight - totalHeight) / 2 + lineHeight / 2;
+                    lines.forEach((line, index) => {
+                        ctx.fillText(line, pixelX + pixelWidth / 2, startY + lineHeight * index);
+                    });
+                }
+
             } else {
                 // Compact style with small first digit
                 const digits = num.toString().split('');
