@@ -57,6 +57,8 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('colour1').value;
     document.getElementById('colour2Text').value =
         document.getElementById('colour2').value;
+    document.getElementById('colour3Text').value =
+        document.getElementById('colour3').value;
     document.getElementById('colourTextText').value =
         document.getElementById('colourText').value;
 
@@ -116,6 +118,7 @@ function generateImage() {
     var pixels = parseInt(document.getElementById('pixelCount').value);
     var color1 = document.getElementById('colour1').value;
     var color2 = document.getElementById('colour2').value;
+    var color3 = document.getElementById('colour3').value;
     var colorText = document.getElementById('colourText').value;
     var opacity = parseInt(document.getElementById('opacity').value) || 100;
     const fontStyle = getFontStyle();
@@ -123,6 +126,7 @@ function generateImage() {
     // Update text inputs with current color values
     document.getElementById('colour1Text').value = color1.toUpperCase();
     document.getElementById('colour2Text').value = color2.toUpperCase();
+    document.getElementById('colour3Text').value = color3.toUpperCase();
     document.getElementById('colourTextText').value = colorText.toUpperCase();
 
     var canvas = document.getElementById('canvas');
@@ -165,14 +169,18 @@ function generateImage() {
 
     for (let i = -pixels; i < pixels; i++) {
         var pixelX = canvasWidth / 2 + i * pixelWidth;
-        ctx.fillStyle = color1;
-        if (Math.abs(i % 2) === 1) {
-            ctx.fillStyle = color2;
+
+        var num = i < 0 ? Math.abs(i) : i + 1;
+        
+        let fillCol = Math.abs(i % 2) === 1 ? color2 : color1;
+        if (num % 10 === 0) {
+            fillCol = color3;
         }
+
+        ctx.fillStyle = fillCol;
         ctx.fillRect(pixelX, pixelY, pixelWidth, pixelHeight);
 
         // Add the number in the center of each rectangle
-        var num = i < 0 ? Math.abs(i) : i + 1;
         var formattedNum = formatNumber(num);
 
         // Set text color with full opacity
