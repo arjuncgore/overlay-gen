@@ -1,5 +1,9 @@
 // Add event listeners for all inputs
 document.addEventListener('DOMContentLoaded', function () {
+    // overlay width
+    document.getElementById('overlayWidth').addEventListener('change', generateImage);
+
+
     // Get all input elements
     const inputs = document.querySelectorAll('input');
     inputs.forEach((input) => {
@@ -113,6 +117,7 @@ function getFontStyle() {
 }
 
 function generateImage() {
+    const blocksWide = parseInt(document.getElementById('overlayWidth').value);
     var canvasWidth = parseInt(document.getElementById('canvasWidth').value);
     var canvasHeight = parseInt(document.getElementById('canvasHeight').value);
     var pixels = parseInt(document.getElementById('pixelCount').value);
@@ -148,7 +153,7 @@ function generateImage() {
     ctx.globalAlpha = opacity / 100;
 
     // Calculate and draw the pixels to the screen
-    const pixelWidth = canvasWidth / 60;
+    const pixelWidth = canvasWidth / blocksWide;
     const pixelHeight = canvasHeight / 12;
     const pixelY = canvasHeight / 2 - pixelHeight / 2;
 
@@ -280,8 +285,8 @@ function generateImage() {
     ctx.fillStyle = '#e8e8e8';
     ctx.fillRect(crosshairX, crosshairY, crosshairWidth, crosshairHeight);
 
-    var cropLeft = 'Left: ' + (canvasWidth - 60) / 2;
-    var cropRight = 'Right: ' + (canvasWidth - 60) / 2;
+    var cropLeft   = 'Left: '   + (canvasWidth  - blocksWide)  / 2;
+    var cropRight  = 'Right: '  + (canvasWidth  - blocksWide)  / 2;
     var cropTop = 'Top: ' + (canvasHeight - 580) / 2;
     var cropBottom = 'Bottom: ' + (canvasHeight - 580) / 2;
 

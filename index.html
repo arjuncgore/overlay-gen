@@ -17,10 +17,10 @@
                 />
         <style>
 @font-face {
-  font-family: 'Cozette';
-  src: url('./fonts/CozetteCrossedSevenVector.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
+    font-family: 'Cozette';
+    src: url('./fonts/CozetteCrossedSevenVector.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
 }
 
 body {
@@ -209,71 +209,79 @@ body {
                 <label for="pixelCount">Number of pixels:</label>
                 <input type="number" id="pixelCountNumber" value="9" min="1" max="50" />
                 <input type="range" id="pixelCount" value="9" min="1" max="50" />
+                <div class="input-group">
+                    <label for="overlayWidth">Overlay width (blocks):</label>
+                    <select id="overlayWidth">
+                        <option value="60" selected>60 blocks wide</option>
+                        <option value="30">30 blocks wide</option>
+                    </select>
+                </div>
+
+
+                <div class="input-group slider-group">
+                    <label for="opacity">Opacity:</label>
+                    <input type="number" id="opacityNumber" value="100" min="0" max="100" />
+                    <input type="range" id="opacity" value="100" min="0" max="100" />
+                </div>
+                <div class="input-group slider-group">
+                    <label for="textSize">Text size:</label>
+                    <input
+                            type="number"
+                            id="textSizeNumber"
+                            value="40"
+                            min="10"
+                            max="100"
+                            />
+                    <input type="range" id="textSize" value="40" min="10" max="100" />
+                </div>
+                <div class="input-group">
+                    <label for="numberStyle">Number style:</label>
+                    <select id="numberStyle">
+                        <option value="stacked">Stacked Digits</option>
+                        <option value="compact">Compact (Small First Digit)</option>
+                        <option value="slackow">Slackow (Only stack 10s)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="fontStyle">Font style:</label>
+                    <select id="fontStyle">
+                        <option value="Inter-400">Inter</option>
+                        <option value="Inter-700">Inter Bold</option>
+                        <option value="Roboto-400">Roboto</option>
+                        <option value="Roboto-700">Roboto Bold</option>
+                        <option value="Roboto-400i">Roboto Italic</option>
+                        <option value="Oswald-400">Oswald</option>
+                        <option value="Oswald-700">Oswald Bold</option>
+                        <option value="Montserrat-400">Montserrat</option>
+                        <option value="Montserrat-700">Montserrat Bold</option>
+                        <option value="Montserrat-400i">Montserrat Italic</option>
+                        <option value="Open Sans-400">Open Sans</option>
+                        <option value="Open Sans-700">Open Sans Bold</option>
+                        <option value="Open Sans-400i">Open Sans Italic</option>
+                        <option value="Lato-400">Lato</option>
+                        <option value="Lato-700">Lato Bold</option>
+                        <option value="Lato-400i">Lato Italic</option>
+                        <option value="JetBrains Mono-400">JetBrains Mono</option>
+                        <option value="JetBrains Mono-700">JetBrains Mono Bold</option>
+                        <option value="Papyrus-400">Papyrus</option>
+                        <option value="Papyrus-700">Papyrus Bold</option>
+                        <option value="Cozette-400">Cozette</option>
+                    </select>
+                </div>
+                <button id="downloadBtn" onclick="downloadImage()" disabled="true">
+                    Download Image
+                </button>
+                <div class="transform">
+                    Transform Settings:<br /><br />
+                    <span id="cropLeft">Left: </span> <span id="cropRight">Right: </span
+                    ><br /><br />
+                    <span id="cropTop">Top: </span> <span id="cropBottom">Bottom: </span
+                    ><br />
+                </div>
             </div>
-            <div class="input-group slider-group">
-                <label for="opacity">Opacity:</label>
-                <input type="number" id="opacityNumber" value="100" min="0" max="100" />
-                <input type="range" id="opacity" value="100" min="0" max="100" />
+            <div class="right-panel">
+                <canvas id="canvas"></canvas>
             </div>
-            <div class="input-group slider-group">
-                <label for="textSize">Text size:</label>
-                <input
-                        type="number"
-                        id="textSizeNumber"
-                        value="40"
-                        min="10"
-                        max="100"
-                        />
-                <input type="range" id="textSize" value="40" min="10" max="100" />
-            </div>
-            <div class="input-group">
-                <label for="numberStyle">Number style:</label>
-                <select id="numberStyle">
-                    <option value="stacked">Stacked Digits</option>
-                    <option value="compact">Compact (Small First Digit)</option>
-                    <option value="slackow">Slackow (Only stack 10s)</option>
-                </select>
-            </div>
-            <div class="input-group">
-                <label for="fontStyle">Font style:</label>
-                <select id="fontStyle">
-                    <option value="Inter-400">Inter</option>
-                    <option value="Inter-700">Inter Bold</option>
-                    <option value="Roboto-400">Roboto</option>
-                    <option value="Roboto-700">Roboto Bold</option>
-                    <option value="Roboto-400i">Roboto Italic</option>
-                    <option value="Oswald-400">Oswald</option>
-                    <option value="Oswald-700">Oswald Bold</option>
-                    <option value="Montserrat-400">Montserrat</option>
-                    <option value="Montserrat-700">Montserrat Bold</option>
-                    <option value="Montserrat-400i">Montserrat Italic</option>
-                    <option value="Open Sans-400">Open Sans</option>
-                    <option value="Open Sans-700">Open Sans Bold</option>
-                    <option value="Open Sans-400i">Open Sans Italic</option>
-                    <option value="Lato-400">Lato</option>
-                    <option value="Lato-700">Lato Bold</option>
-                    <option value="Lato-400i">Lato Italic</option>
-                    <option value="JetBrains Mono-400">JetBrains Mono</option>
-                    <option value="JetBrains Mono-700">JetBrains Mono Bold</option>
-                    <option value="Papyrus-400">Papyrus</option>
-                    <option value="Papyrus-700">Papyrus Bold</option>
-                    <option value="Cozette-400">Cozette</option>
-                </select>
-            </div>
-            <button id="downloadBtn" onclick="downloadImage()" disabled="true">
-                Download Image
-            </button>
-            <div class="transform">
-                Transform Settings:<br /><br />
-                <span id="cropLeft">Left: </span> <span id="cropRight">Right: </span
-                ><br /><br />
-                <span id="cropTop">Top: </span> <span id="cropBottom">Bottom: </span
-                ><br />
-            </div>
-        </div>
-        <div class="right-panel">
-            <canvas id="canvas"></canvas>
-        </div>
-        <script src="genScript.js"></script>
+            <script src="genScript.js"></script>
     </body>
 </html>
